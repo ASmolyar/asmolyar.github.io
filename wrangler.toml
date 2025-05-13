@@ -1,6 +1,3 @@
 name = "aaronsmolyar-com"
 pages_build_output_dir = "dist"
-compatibility_date = "2023-06-01"
-
-[build]
-command = "./build.sh" 
+compatibility_date = "2023-06-01" 
