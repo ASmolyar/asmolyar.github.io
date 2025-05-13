@@ -13,7 +13,18 @@ npm install --include=optional
 echo "Installing platform-specific dependencies..."
 npm install @parcel/watcher-linux-x64-glibc --no-save
 
+# Create simple .parcelrc to avoid native module issues
+echo "Creating simplified Parcel configuration..."
+cat > .parcelrc << EOF
+{
+  "extends": "@parcel/config-default",
+  "transformers": {
+    "*.css": ["@parcel/transformer-postcss", "@parcel/transformer-css-experimental"]
+  }
+}
+EOF
+
 echo "Building project..."
-npx parcel build src/index.html --dist-dir dist --no-optimize --no-cache
+npx parcel build src/index.html --dist-dir dist --no-optimize --no-cache --no-minify
 
 echo "Build complete!" 
