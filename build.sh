@@ -14,12 +14,11 @@ mkdir -p dist/assets
 echo "Installing dependencies..."
 npm install typescript --no-save
 
-# Create a JavaScript version of particles.js first with full functionality
-echo "Creating JavaScript modules with full functionality..."
+# Create particles.js with section visibility modification
+echo "Creating JavaScript modules with section-specific particles..."
 
-# Create particles.js with complete restoration of original functionality
 cat > dist/scripts/particles.js << 'EOF'
-// Complete restoration of original particle system with all features
+// Complete restoration of original particle system with section-specific particles
 
 export default class ParticleBackground {
   constructor(canvasId) {
@@ -41,6 +40,7 @@ export default class ParticleBackground {
     this.resizeTimeout = null;
     this.frameCount = 0;
     this.shockwaves = [];
+    this.currentSection = 'about'; // Track the current visible section
     
     // SVG paths for chess pieces
     this.chessPiecePaths = {
@@ -182,7 +182,28 @@ export default class ParticleBackground {
     this.setupCanvas();
     this.setupEventListeners();
     this.initSections();
+    this.setupSectionObserver();
     this.animate();
+  }
+  
+  setupSectionObserver() {
+    // Create an intersection observer to track visible sections
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.currentSection = entry.target.id;
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5  // Consider section visible when 50% is in viewport
+    });
+    
+    // Observe all sections with IDs
+    document.querySelectorAll('section[id]').forEach(section => {
+      observer.observe(section);
+    });
   }
   
   setupCanvas() {
@@ -369,9 +390,10 @@ export default class ParticleBackground {
       shockwave.radius += 10;
       shockwave.intensity *= 0.95;
       
-      // Apply shockwave force to all particles
-      this.sections.forEach(section => {
-        section.particles.forEach(particle => {
+      // Apply shockwave force only to current section's particles
+      const currentSectionObj = this.sections.find(section => section.id === this.currentSection);
+      if (currentSectionObj) {
+        currentSectionObj.particles.forEach(particle => {
           const dx = particle.x - shockwave.x;
           const dy = particle.y - shockwave.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -396,7 +418,7 @@ export default class ParticleBackground {
             }
           }
         });
-      });
+      }
       
       // Remove shockwave when it's no longer visible
       if (shockwave.intensity < 0.05 || shockwave.radius > Math.max(this.canvas.width, this.canvas.height)) {
@@ -404,8 +426,10 @@ export default class ParticleBackground {
       }
     }
     
-    // Update particle positions in each section
+    // Update all particles' positions but only apply mouse interaction to visible section
     this.sections.forEach(section => {
+      const isVisible = section.id === this.currentSection;
+      
       section.particles.forEach(particle => {
         // Update trail before moving the particle
         if (this.frameCount % 2 === 0) { // Only update every other frame for performance
@@ -435,8 +459,8 @@ export default class ParticleBackground {
           particle.rotationalVelocity = 0.01 + (particle.originalId % 5) * 0.001;
         }
         
-        // Interact with mouse if it's moving or pressed down
-        if (this.isMouseMoving || this.isMouseDown) {
+        // Only apply mouse interaction to particles in the visible section
+        if (isVisible && (this.isMouseMoving || this.isMouseDown)) {
           const dx = this.mouseX - particle.x;
           const dy = this.mouseY - particle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -500,186 +524,188 @@ export default class ParticleBackground {
       this.ctx.stroke();
     });
     
-    // Draw particles from all sections
-    this.sections.forEach(section => {
-      section.particles.forEach(particle => {
-        // Skip rendering particles that are too small
-        if (particle.size < 0.1) return;
-        
-        // Draw trail first (behind the particle)
+    // Find current visible section
+    const currentSectionObj = this.sections.find(section => section.id === this.currentSection);
+    if (!currentSectionObj) return;
+    
+    // Only draw particles for the current section
+    currentSectionObj.particles.forEach(particle => {
+      // Skip rendering particles that are too small
+      if (particle.size < 0.1) return;
+      
+      // Draw trail first (behind the particle)
+      this.ctx.save();
+      
+      // Only draw trail if particle is moving fast enough
+      const speed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
+      if (speed > this.MIN_SPEED * 2) {
+        for (let i = 0; i < particle.trail.length - 1; i++) {
+          const pos = particle.trail[i];
+          const nextPos = particle.trail[i + 1];
+          
+          // Skip if positions are too far apart (likely due to wrapping)
+          const dx = Math.abs(pos.x - nextPos.x);
+          const dy = Math.abs(pos.y - nextPos.y);
+          if (dx > 100 || dy > 100) continue;
+          
+          const alpha = (i / particle.trail.length) * particle.trailOpacity;
+          
+          this.ctx.beginPath();
+          this.ctx.moveTo(pos.x, pos.y);
+          this.ctx.lineTo(nextPos.x, nextPos.y);
+          this.ctx.strokeStyle = this.hexToRgba(particle.color, alpha);
+          this.ctx.lineWidth = particle.size * 0.8 * (i / particle.trail.length);
+          this.ctx.stroke();
+        }
+      }
+      this.ctx.restore();
+      
+      // Draw the particle based on its shape
+      this.ctx.save();
+      
+      if (particle.shape === 'circle') {
+        this.ctx.beginPath();
+        this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        this.ctx.fillStyle = particle.color;
+        this.ctx.fill();
+      } 
+      else if (particle.shape === 'square') {
         this.ctx.save();
+        this.ctx.translate(particle.x, particle.y);
+        this.ctx.rotate(particle.rotation);
+        this.ctx.fillStyle = particle.color;
+        this.ctx.fillRect(-particle.size, -particle.size, particle.size * 2, particle.size * 2);
+        this.ctx.restore();
+      }
+      else if (particle.shape === 'triangle') {
+        this.ctx.save();
+        this.ctx.translate(particle.x, particle.y);
+        this.ctx.rotate(particle.rotation);
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, -particle.size);
+        this.ctx.lineTo(particle.size, particle.size);
+        this.ctx.lineTo(-particle.size, particle.size);
+        this.ctx.closePath();
+        this.ctx.fillStyle = particle.color;
+        this.ctx.fill();
+        this.ctx.restore();
+      }
+      else if (particle.shape === 'chess') {
+        // Draw chess pieces using the SVG path data
+        this.ctx.save();
+        this.ctx.translate(particle.x, particle.y);
+        this.ctx.rotate(particle.rotation);
+        this.ctx.scale(particle.size / 20, particle.size / 20); // Scale based on particle size
         
-        // Only draw trail if particle is moving fast enough
-        const speed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
-        if (speed > this.MIN_SPEED * 2) {
-          for (let i = 0; i < particle.trail.length - 1; i++) {
-            const pos = particle.trail[i];
-            const nextPos = particle.trail[i + 1];
-            
-            // Skip if positions are too far apart (likely due to wrapping)
-            const dx = Math.abs(pos.x - nextPos.x);
-            const dy = Math.abs(pos.y - nextPos.y);
-            if (dx > 100 || dy > 100) continue;
-            
-            const alpha = (i / particle.trail.length) * particle.trailOpacity;
-            
-            this.ctx.beginPath();
-            this.ctx.moveTo(pos.x, pos.y);
-            this.ctx.lineTo(nextPos.x, nextPos.y);
-            this.ctx.strokeStyle = this.hexToRgba(particle.color, alpha);
-            this.ctx.lineWidth = particle.size * 0.8 * (i / particle.trail.length);
-            this.ctx.stroke();
-          }
+        const pieceKey = particle.chessPiece;
+        if (pieceKey && this.chessPiecePaths[pieceKey]) {
+          const path = new Path2D(this.chessPiecePaths[pieceKey]);
+          this.ctx.fillStyle = particle.pieceColor === 'l' ? '#FFFFFF' : '#000000';
+          this.ctx.fill(path);
+          
+          // Add stroke for visibility
+          this.ctx.strokeStyle = particle.pieceColor === 'l' ? '#000000' : '#FFFFFF';
+          this.ctx.lineWidth = 0.5;
+          this.ctx.stroke(path);
+        } else {
+          // Fallback if piece not found
+          this.ctx.beginPath();
+          this.ctx.arc(0, 0, 10, 0, Math.PI * 2);
+          this.ctx.fillStyle = particle.color;
+          this.ctx.fill();
         }
         this.ctx.restore();
-        
-        // Draw the particle based on its shape
+      }
+      else if (particle.shape === 'leaf') {
+        // Draw leaf shape
         this.ctx.save();
+        this.ctx.translate(particle.x, particle.y);
+        this.ctx.rotate(particle.rotation);
+        this.ctx.scale(particle.size / 10, particle.size / 10);
         
-        if (particle.shape === 'circle') {
-          this.ctx.beginPath();
-          this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-          this.ctx.fillStyle = particle.color;
-          this.ctx.fill();
-        } 
-        else if (particle.shape === 'square') {
-          this.ctx.save();
-          this.ctx.translate(particle.x, particle.y);
-          this.ctx.rotate(particle.rotation);
-          this.ctx.fillStyle = particle.color;
-          this.ctx.fillRect(-particle.size, -particle.size, particle.size * 2, particle.size * 2);
-          this.ctx.restore();
-        }
-        else if (particle.shape === 'triangle') {
-          this.ctx.save();
-          this.ctx.translate(particle.x, particle.y);
-          this.ctx.rotate(particle.rotation);
-          this.ctx.beginPath();
-          this.ctx.moveTo(0, -particle.size);
-          this.ctx.lineTo(particle.size, particle.size);
-          this.ctx.lineTo(-particle.size, particle.size);
-          this.ctx.closePath();
-          this.ctx.fillStyle = particle.color;
-          this.ctx.fill();
-          this.ctx.restore();
-        }
-        else if (particle.shape === 'chess') {
-          // Draw chess pieces using the SVG path data
-          this.ctx.save();
-          this.ctx.translate(particle.x, particle.y);
-          this.ctx.rotate(particle.rotation);
-          this.ctx.scale(particle.size / 20, particle.size / 20); // Scale based on particle size
-          
-          const pieceKey = particle.chessPiece;
-          if (pieceKey && this.chessPiecePaths[pieceKey]) {
-            const path = new Path2D(this.chessPiecePaths[pieceKey]);
-            this.ctx.fillStyle = particle.pieceColor === 'l' ? '#FFFFFF' : '#000000';
-            this.ctx.fill(path);
-            
-            // Add stroke for visibility
-            this.ctx.strokeStyle = particle.pieceColor === 'l' ? '#000000' : '#FFFFFF';
-            this.ctx.lineWidth = 0.5;
-            this.ctx.stroke(path);
-          } else {
-            // Fallback if piece not found
-            this.ctx.beginPath();
-            this.ctx.arc(0, 0, 10, 0, Math.PI * 2);
-            this.ctx.fillStyle = particle.color;
-            this.ctx.fill();
-          }
-          this.ctx.restore();
-        }
-        else if (particle.shape === 'leaf') {
-          // Draw leaf shape
-          this.ctx.save();
-          this.ctx.translate(particle.x, particle.y);
-          this.ctx.rotate(particle.rotation);
-          this.ctx.scale(particle.size / 10, particle.size / 10);
-          
-          this.ctx.beginPath();
-          // Draw a leaf shape
-          this.ctx.moveTo(0, -10);
-          this.ctx.bezierCurveTo(5, -5, 10, 0, 0, 10);
-          this.ctx.bezierCurveTo(-10, 0, -5, -5, 0, -10);
-          
-          // Draw the stem
-          this.ctx.moveTo(0, 10);
-          this.ctx.lineTo(0, 15);
-          
-          this.ctx.fillStyle = particle.color;
-          this.ctx.fill();
-          this.ctx.strokeStyle = this.hexToRgba(particle.color, 0.8);
-          this.ctx.lineWidth = 1;
-          this.ctx.stroke();
-          this.ctx.restore();
-        }
-        else if (particle.shape === 'clock') {
-          // Draw clock shape
-          this.ctx.save();
-          this.ctx.translate(particle.x, particle.y);
-          
-          // Draw clock face
-          this.ctx.beginPath();
-          this.ctx.arc(0, 0, particle.size, 0, Math.PI * 2);
-          this.ctx.fillStyle = particle.color;
-          this.ctx.fill();
-          this.ctx.strokeStyle = '#FFFFFF';
-          this.ctx.lineWidth = particle.size * 0.1;
-          this.ctx.stroke();
-          
-          // Draw hour hand
-          this.ctx.save();
-          this.ctx.rotate(particle.rotation * 0.1); // Slower rotation
-          this.ctx.beginPath();
-          this.ctx.moveTo(0, 0);
-          this.ctx.lineTo(0, -particle.size * 0.5);
-          this.ctx.strokeStyle = '#FFFFFF';
-          this.ctx.lineWidth = particle.size * 0.15;
-          this.ctx.stroke();
-          this.ctx.restore();
-          
-          // Draw minute hand
-          this.ctx.save();
-          this.ctx.rotate(particle.rotation); // Normal rotation
-          this.ctx.beginPath();
-          this.ctx.moveTo(0, 0);
-          this.ctx.lineTo(0, -particle.size * 0.7);
-          this.ctx.strokeStyle = '#FFFFFF';
-          this.ctx.lineWidth = particle.size * 0.1;
-          this.ctx.stroke();
-          this.ctx.restore();
-          
-          this.ctx.restore();
-        }
-        else if (particle.shape === 'code') {
-          // Draw code-like symbols
-          this.ctx.save();
-          this.ctx.translate(particle.x, particle.y);
-          this.ctx.rotate(particle.rotation);
-          
-          // Choose a code symbol based on the particle's ID
-          const symbols = ['{ }', '< >', '( )', '[ ]', '//', '/*', '*/'];
-          const symbolIndex = particle.originalId % symbols.length;
-          const symbol = symbols[symbolIndex];
-          
-          this.ctx.font = `${particle.size * 1.5}px monospace`;
-          this.ctx.fillStyle = particle.color;
-          this.ctx.textAlign = 'center';
-          this.ctx.textBaseline = 'middle';
-          this.ctx.fillText(symbol, 0, 0);
-          
-          this.ctx.restore();
-        }
-        else {
-          // Default fallback shape
-          this.ctx.beginPath();
-          this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-          this.ctx.fillStyle = particle.color;
-          this.ctx.fill();
-        }
+        this.ctx.beginPath();
+        // Draw a leaf shape
+        this.ctx.moveTo(0, -10);
+        this.ctx.bezierCurveTo(5, -5, 10, 0, 0, 10);
+        this.ctx.bezierCurveTo(-10, 0, -5, -5, 0, -10);
+        
+        // Draw the stem
+        this.ctx.moveTo(0, 10);
+        this.ctx.lineTo(0, 15);
+        
+        this.ctx.fillStyle = particle.color;
+        this.ctx.fill();
+        this.ctx.strokeStyle = this.hexToRgba(particle.color, 0.8);
+        this.ctx.lineWidth = 1;
+        this.ctx.stroke();
+        this.ctx.restore();
+      }
+      else if (particle.shape === 'clock') {
+        // Draw clock shape
+        this.ctx.save();
+        this.ctx.translate(particle.x, particle.y);
+        
+        // Draw clock face
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, particle.size, 0, Math.PI * 2);
+        this.ctx.fillStyle = particle.color;
+        this.ctx.fill();
+        this.ctx.strokeStyle = '#FFFFFF';
+        this.ctx.lineWidth = particle.size * 0.1;
+        this.ctx.stroke();
+        
+        // Draw hour hand
+        this.ctx.save();
+        this.ctx.rotate(particle.rotation * 0.1); // Slower rotation
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, 0);
+        this.ctx.lineTo(0, -particle.size * 0.5);
+        this.ctx.strokeStyle = '#FFFFFF';
+        this.ctx.lineWidth = particle.size * 0.15;
+        this.ctx.stroke();
+        this.ctx.restore();
+        
+        // Draw minute hand
+        this.ctx.save();
+        this.ctx.rotate(particle.rotation); // Normal rotation
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, 0);
+        this.ctx.lineTo(0, -particle.size * 0.7);
+        this.ctx.strokeStyle = '#FFFFFF';
+        this.ctx.lineWidth = particle.size * 0.1;
+        this.ctx.stroke();
+        this.ctx.restore();
         
         this.ctx.restore();
-      });
+      }
+      else if (particle.shape === 'code') {
+        // Draw code-like symbols
+        this.ctx.save();
+        this.ctx.translate(particle.x, particle.y);
+        this.ctx.rotate(particle.rotation);
+        
+        // Choose a code symbol based on the particle's ID
+        const symbols = ['{ }', '< >', '( )', '[ ]', '//', '/*', '*/'];
+        const symbolIndex = particle.originalId % symbols.length;
+        const symbol = symbols[symbolIndex];
+        
+        this.ctx.font = `${particle.size * 1.5}px monospace`;
+        this.ctx.fillStyle = particle.color;
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
+        this.ctx.fillText(symbol, 0, 0);
+        
+        this.ctx.restore();
+      }
+      else {
+        // Default fallback shape
+        this.ctx.beginPath();
+        this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        this.ctx.fillStyle = particle.color;
+        this.ctx.fill();
+      }
+      
+      this.ctx.restore();
     });
   }
   
@@ -691,12 +717,12 @@ export default class ParticleBackground {
 }
 EOF
 
-# Create main.js - no changes needed to this file as it was already updated
+# Create main.js file with updated ParticleBackground initialization
 cat > dist/scripts/main.js << 'EOF'
 import ParticleBackground from './particles.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize particle background
+  // Initialize particle background with section-specific functionality
   const particlesCanvas = document.getElementById('particles-canvas');
   if (particlesCanvas) {
     new ParticleBackground('particles-canvas');
