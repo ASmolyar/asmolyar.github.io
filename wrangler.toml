@@ -1,13 +1,2 @@
-# Cloudflare Pages configuration
 name = "aaronsmolyar-com"
-pages_build_output_dir = "dist"
-
-[build]
-command = "npm install && npm run build"
-publish = "dist"
-
-[site]
-bucket = "dist"
-
-[build.environment]
-NODE_VERSION = "18" 
+pages_build_output_dir = "dist" 
