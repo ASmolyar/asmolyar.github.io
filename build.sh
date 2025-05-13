@@ -19,7 +19,7 @@ cat > .parcelrc << EOF
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.css": ["@parcel/transformer-postcss", "@parcel/transformer-css-experimental"]
+    "*.css": ["@parcel/transformer-postcss", "@parcel/transformer-css"]
   },
   "optimizers": {
     "*.js": [],
