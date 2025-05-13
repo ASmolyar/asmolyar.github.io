@@ -496,16 +496,16 @@ class ParticleBackground {
       for (let i = 0; i < particle.trail.length - 1; i++) {
         const pos = particle.trail[i];
         const nextPos = particle.trail[i + 1];
-        
+
         // Skip if positions are too far apart (likely due to wrapping)
         const dx = Math.abs(pos.x - nextPos.x);
         const dy = Math.abs(pos.y - nextPos.y);
         if (dx > this.canvas.width / 2 || dy > this.canvas.height / 2) continue;
-        
-        // Calculate opacity based on position in trail
-        const opacity = 0.2 * (i / particle.trail.length);
+
+        // Calculate opacity based on position in trail (reduced by half)
+        const opacity = 0.1 * (i / particle.trail.length); // Reduced from 0.2 to 0.1
         const color = this.hexToRgba(particle.color, opacity);
-        
+
         // Draw trail segment
         this.ctx.beginPath();
         this.ctx.moveTo(pos.x, pos.y);
@@ -516,19 +516,32 @@ class ParticleBackground {
       }
     }
     this.ctx.restore();
-    
+
     // Draw the actual particle
     this.ctx.save();
     this.ctx.translate(particle.x, particle.y);
     this.ctx.rotate(particle.rotation);
-    this.ctx.fillStyle = particle.color;
+
+    // Set global opacity to 0.5 for all particles (reducing opacity by half)
+    this.ctx.globalAlpha = 0.5;
+
+    // Convert solid color to semi-transparent color
+    const rgb = this.hexToRgb(particle.color);
+    this.ctx.fillStyle = rgb
+      ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`
+      : particle.color;
     
     switch (particle.shape) {
-      case 'square':
-        this.ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+      case "square":
+        this.ctx.fillRect(
+          -particle.size / 2,
+          -particle.size / 2,
+          particle.size,
+          particle.size
+        );
         break;
-        
-      case 'triangle':
+
+      case "triangle":
         this.ctx.beginPath();
         this.ctx.moveTo(0, -particle.size / 2);
         this.ctx.lineTo(particle.size / 2, particle.size / 2);
@@ -536,18 +549,18 @@ class ParticleBackground {
         this.ctx.closePath();
         this.ctx.fill();
         break;
-        
-      case 'chess':
+
+      case "chess":
         // Draw a chess piece based on the particle's ID
         const pieceType = particle.originalId % 6; // 6 different chess piece types
-        const isBlack = particle.pieceColor === 'd'; // Use consistent color from particle
+        const isBlack = particle.pieceColor === "d"; // Use consistent color from particle
         const pieceSize = particle.size * 2; // Make pieces a bit larger
-        
+
         // Setup images for chess pieces - using standard chess notation
-        const pieceLetters = ['p', 'n', 'b', 'r', 'q', 'k']; // p=pawn, n=knight, b=bishop, r=rook, q=queen, k=king
+        const pieceLetters = ["p", "n", "b", "r", "q", "k"]; // p=pawn, n=knight, b=bishop, r=rook, q=queen, k=king
         const pieceLetter = pieceLetters[pieceType];
-        const colorLetter = particle.pieceColor || 'l'; // Use stored color or default to light
-        
+        const colorLetter = particle.pieceColor || "l"; // Use stored color or default to light
+
         // Get SVG path for this piece
         const pieceKey = `${pieceLetter}${colorLetter}`;
         const pathData = this.chessPiecePaths[pieceKey];
@@ -555,66 +568,78 @@ class ParticleBackground {
         // Save context state
         const origFillStyle = this.ctx.fillStyle;
         const origStrokeStyle = this.ctx.strokeStyle;
-        
+
         // Setup for drawing SVG path
-        this.ctx.fillStyle = isBlack ? '#000000' : '#FFFFFF';
-        this.ctx.strokeStyle = '#000000';
+        this.ctx.fillStyle = isBlack
+          ? "rgba(0,0,0,0.5)"
+          : "rgba(255,255,255,0.5)"; // Reduced opacity
+        this.ctx.strokeStyle = "rgba(0,0,0,0.5)"; // Reduced opacity
         this.ctx.lineWidth = 1;
-        
+
         // Scale to fit the particle size
         const scale = pieceSize / 40; // SVGs are 45x45, but we want a small margin
         this.ctx.scale(scale, scale);
-        
+
         // Create path from SVG data
         const path = new Path2D(pathData);
-        
+
         // Fill and stroke the path
         this.ctx.fill(path);
         if (!isBlack) {
           this.ctx.stroke(path);
         }
-        
+
         // Restore context state
-        this.ctx.scale(1/scale, 1/scale);
+        this.ctx.scale(1 / scale, 1 / scale);
         this.ctx.fillStyle = origFillStyle;
         this.ctx.strokeStyle = origStrokeStyle;
         break;
-        
-      case 'leaf':
+
+      case "leaf":
         // Simple leaf shape
         this.ctx.beginPath();
-        this.ctx.ellipse(0, 0, particle.size / 2, particle.size, 0, 0, Math.PI * 2);
+        this.ctx.ellipse(
+          0,
+          0,
+          particle.size / 2,
+          particle.size,
+          0,
+          0,
+          Math.PI * 2
+        );
         this.ctx.fill();
         this.ctx.beginPath();
         this.ctx.moveTo(0, -particle.size);
         this.ctx.lineTo(0, particle.size);
-        this.ctx.strokeStyle = particle.color;
+        this.ctx.strokeStyle = rgb
+          ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`
+          : particle.color; // Reduced opacity
         this.ctx.lineWidth = 1;
         this.ctx.stroke();
         break;
-        
-      case 'clock':
+
+      case "clock":
         // Clock face
         this.ctx.beginPath();
         this.ctx.arc(0, 0, particle.size, 0, Math.PI * 2);
         this.ctx.fill();
-        this.ctx.strokeStyle = '#ffffff';
+        this.ctx.strokeStyle = "rgba(255,255,255,0.5)"; // Reduced opacity
         this.ctx.lineWidth = 1;
-        
+
         // Hour hand
         this.ctx.beginPath();
         this.ctx.moveTo(0, 0);
         this.ctx.lineTo(0, -particle.size / 2);
         this.ctx.stroke();
-        
+
         // Minute hand
         this.ctx.beginPath();
         this.ctx.moveTo(0, 0);
         this.ctx.lineTo(particle.size / 1.5, 0);
         this.ctx.stroke();
         break;
-        
-      case 'code':
+
+      case "code":
         // Code brackets
         this.ctx.beginPath();
         this.ctx.moveTo(-particle.size / 2, 0);
@@ -624,8 +649,8 @@ class ParticleBackground {
         this.ctx.closePath();
         this.ctx.fill();
         break;
-        
-      case 'circle':
+
+      case "circle":
       default:
         this.ctx.beginPath();
         this.ctx.arc(0, 0, particle.size, 0, Math.PI * 2);
