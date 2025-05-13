@@ -14,6 +14,6 @@ echo "Installing platform-specific dependencies..."
 npm install @parcel/watcher-linux-x64-glibc --no-save
 
 echo "Building project..."
-npx parcel build src/index.html --dist-dir dist --no-optimize --no-cache --no-watch
+npx parcel build src/index.html --dist-dir dist --no-optimize --no-cache
 
 echo "Build complete!" 
