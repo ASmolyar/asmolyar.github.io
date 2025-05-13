@@ -5,30 +5,38 @@ echo "Removing any existing lock files..."
 rm -f package-lock.json
 rm -f yarn.lock
 
-echo "Installing dependencies with standard npm install..."
-# Ensure all optional dependencies are installed
-npm install --include=optional
+echo "Installing minimal dependencies..."
+npm install --no-package-lock
 
-# Explicitly install platform-specific watcher
-echo "Installing platform-specific dependencies..."
-npm install @parcel/watcher-linux-x64-glibc --no-save
-
-# Create simple .parcelrc to avoid native module issues
-echo "Creating simplified Parcel configuration..."
+echo "Creating a minimal build setup..."
+# Create a very minimal Parcel config that disables transformers
 cat > .parcelrc << EOF
 {
   "extends": "@parcel/config-default",
+  "resolvers": ["@parcel/resolver-default"],
   "transformers": {
-    "*.css": ["@parcel/transformer-postcss", "@parcel/transformer-css"]
+    "*.{css,scss}": ["...", "@parcel/transformer-raw"],
+    "*.{js,jsx,ts,tsx}": ["@parcel/transformer-js"]
+  },
+  "packagers": {
+    "*.html": "@parcel/packager-html",
+    "*.css": "@parcel/packager-raw-url",
+    "*.js": "@parcel/packager-js",
+    "*": "@parcel/packager-raw"
   },
   "optimizers": {
     "*.js": [],
-    "*.css": []
-  }
+    "*.css": [],
+    "*.html": []
+  },
+  "reporters": ["@parcel/reporter-cli"]
 }
 EOF
 
+echo "Installing direct dependencies..."
+npm install @parcel/transformer-raw @parcel/packager-raw @parcel/packager-raw-url --no-save
+
 echo "Building project..."
-npx parcel build src/index.html --dist-dir dist --no-optimize --no-cache
+npx parcel build src/index.html --dist-dir dist --no-cache --detailed-report 0
 
 echo "Build complete!" 
