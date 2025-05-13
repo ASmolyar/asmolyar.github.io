@@ -22,5 +22,6 @@
   },
   "dependencies": {
     "gsap": "^3.11.5"
-  }
-} 
+  },
+  "packageManager": "yarn@4.9.1"
+}
