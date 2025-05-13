@@ -20,11 +20,15 @@ cat > .parcelrc << EOF
   "extends": "@parcel/config-default",
   "transformers": {
     "*.css": ["@parcel/transformer-postcss", "@parcel/transformer-css-experimental"]
+  },
+  "optimizers": {
+    "*.js": [],
+    "*.css": []
   }
 }
 EOF
 
 echo "Building project..."
-npx parcel build src/index.html --dist-dir dist --no-optimize --no-cache --no-minify
+npx parcel build src/index.html --dist-dir dist --no-optimize --no-cache
 
 echo "Build complete!" 
