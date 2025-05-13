@@ -266,8 +266,9 @@ ul, ol {
   max-width: 80%;
   height: var(--project-nav-height);
   background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  /* Remove blur filters */
+  /* backdrop-filter: blur(5px); */
+  /* -webkit-backdrop-filter: blur(5px); */
   box-shadow: var(--shadow-md);
   z-index: 99;
   display: flex;
@@ -874,18 +875,38 @@ ul, ol {
   z-index: 1;
 }
 
-/* Section-specific background styling */
+/* Section-specific background styling - REMOVE TRANSLUCENT OVERLAYS */
+.project-section {
+  position: relative;
+  overflow: hidden;
+  padding: var(--spacing-xxl) 0;
+  scroll-margin-top: calc(var(--header-height) + var(--project-nav-height) + 20px);
+  z-index: 1;
+}
+
+/* Remove this semi-transparent overlay causing blur */
+.project-section::before {
+  display: none;
+}
+
+/* Section-specific background styling without translucent overlays */
 #cleo {
-  background: var(--color-section-cleo);
   border-top: 3px solid rgba(52, 152, 219, 0.3);
   border-bottom: 3px solid rgba(52, 152, 219, 0.3);
 }
 
 #brainrot {
-  background: var(--color-section-brainrot);
   border-top: 3px solid rgba(241, 196, 15, 0.3);
   border-bottom: 3px solid rgba(241, 196, 15, 0.3);
   position: relative;
+}
+
+#chess {
+  border-top: 3px solid rgba(44, 62, 80, 0.3);
+  border-bottom: 3px solid rgba(44, 62, 80, 0.3);
+  position: relative;
+  overflow: hidden;
+  padding-bottom: var(--spacing-xxl);
 }
 
 /* Enhanced brainrot section styling */
@@ -1022,20 +1043,9 @@ ul, ol {
   padding-bottom: var(--spacing-xxl);
 }
 
-/* Update chess background to use custom image with improved overlay */
+/* Update chess background to use custom image without blurry overlay */
 #chess::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('../assets/chess_background.png') no-repeat center 40%;
-  background-size: 110% auto; /* Zoom in slightly */
-  background-attachment: fixed;
-  opacity: 0.35;
-  z-index: -2;
-  filter: contrast(1.1) brightness(0.95);
+  display: none; /* Remove chess background image which creates blur */
 }
 
 /* Remove the perspective chessboard */
@@ -1444,15 +1454,7 @@ ul, ol {
 }
 
 #camprsm::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.15;
-  z-index: -1;
-  filter: saturate(0.8);
+  display: none; /* Remove camprsm gradient background */
 }
 
 #tomadoro {
@@ -2033,15 +2035,7 @@ ul, ol {
 
 /* Solid pink background */
 #music::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(156, 39, 176, 0.15); /* Solid pink background */
-  opacity: 1;
-  z-index: -1;
+  display: none; /* Remove music background gradient */
 }
 
 /* Add animation to YouTube and Vimeo containers */
@@ -2589,22 +2583,12 @@ ul, ol {
   border-bottom: 3px solid rgba(44, 62, 80, 0.3);
   position: relative;
   overflow: hidden;
+  padding-bottom: var(--spacing-xxl);
 }
 
-/* Update chess background to use custom image */
+/* Update chess background to use custom image without blurry overlay */
 #chess::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('../assets/chess_background.png') no-repeat center 40%;
-  background-size: 110% auto; /* Zoom in slightly */
-  background-attachment: fixed;
-  opacity: 0.35;
-  z-index: -2;
-  filter: contrast(1.1) brightness(0.95);
+  display: none; /* Remove chess background image which creates blur */
 }
 
 /* Remove the perspective chessboard */
