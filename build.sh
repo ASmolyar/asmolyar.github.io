@@ -16,7 +16,30 @@ npm install --no-save esbuild
 echo "Copying static assets..."
 cp -r src/*.html dist/
 cp -r src/styles dist/
-cp -r src/assets dist/
+
+# Create assets directory
+mkdir -p dist/assets
+mkdir -p dist/assets/logos
+
+# Copy and normalize image extensions to lowercase
+echo "Normalizing image extensions to lowercase..."
+for file in src/assets/*; do
+  if [ -f "$file" ]; then
+    # Get the basename and extension
+    filename=$(basename "$file")
+    # Convert to lowercase and copy
+    lowercase_filename=$(echo "$filename" | tr '[:upper:]' '[:lower:]')
+    cp "$file" "dist/assets/$lowercase_filename"
+  fi
+done
+
+# Copy subdirectories in assets except for files already processed
+echo "Copying asset subdirectories..."
+for dir in src/assets/*/; do
+  dir_name=$(basename "$dir")
+  mkdir -p "dist/assets/$dir_name"
+  cp -r "$dir"* "dist/assets/$dir_name/" 2>/dev/null || true
+done
 
 # Process TypeScript files with esbuild (ensure proper module format)
 echo "Processing TypeScript files..."

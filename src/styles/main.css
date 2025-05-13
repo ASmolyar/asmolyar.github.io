@@ -902,11 +902,33 @@ ul, ol {
 }
 
 #chess {
+  background: var(--color-section-chess) url('../assets/chess_background.png');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
   border-top: 3px solid rgba(44, 62, 80, 0.3);
   border-bottom: 3px solid rgba(44, 62, 80, 0.3);
   position: relative;
   overflow: hidden;
   padding-bottom: var(--spacing-xxl);
+}
+
+/* Semi-transparent overlay to improve readability over background */
+#chess::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: -1;
+}
+
+/* Remove the perspective chessboard */
+#chess::before {
+  display: none;
 }
 
 /* Enhanced brainrot section styling */
@@ -1035,7 +1057,11 @@ ul, ol {
 
 /* Enhanced Chess section styling */
 #chess {
-  background: var(--color-section-chess);
+  background: var(--color-section-chess) url('../assets/chess_background.png');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
   border-top: 3px solid rgba(44, 62, 80, 0.3);
   border-bottom: 3px solid rgba(44, 62, 80, 0.3);
   position: relative;
@@ -1043,10 +1069,19 @@ ul, ol {
   padding-bottom: var(--spacing-xxl);
 }
 
-/* Update chess background to use custom image without blurry overlay */
+/* Semi-transparent overlay to improve readability over background */
 #chess::after {
-  display: none; /* Remove chess background image which creates blur */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: -1;
 }
+
+/* Remove duplicate chess section entries */
 
 /* Remove the perspective chessboard */
 #chess::before {
@@ -2579,7 +2614,11 @@ ul, ol {
 
 /* Enhanced Chess section styling */
 #chess {
-  background: var(--color-section-chess);
+  background: var(--color-section-chess) url('../assets/chess_background.png');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
   border-top: 3px solid rgba(44, 62, 80, 0.3);
   border-bottom: 3px solid rgba(44, 62, 80, 0.3);
   position: relative;
@@ -2587,10 +2626,19 @@ ul, ol {
   padding-bottom: var(--spacing-xxl);
 }
 
-/* Update chess background to use custom image without blurry overlay */
+/* Semi-transparent overlay to improve readability over background */
 #chess::after {
-  display: none; /* Remove chess background image which creates blur */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: -1;
 }
+
+/* Remove duplicate chess section entries */
 
 /* Remove the perspective chessboard */
 #chess::before {
