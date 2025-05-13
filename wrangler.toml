@@ -2,5 +2,11 @@
 command = "npm install && npm run build"
 publish = "dist"
 
+[site]
+bucket = "dist"
+
 [build.environment]
-NODE_VERSION = "18" 
+NODE_VERSION = "18"
+
+# This is the important property Cloudflare is looking for
+pages_build_output_dir = "dist" 
