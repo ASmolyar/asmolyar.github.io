@@ -1,4 +1,5 @@
 # Cloudflare Pages configuration
+name = "aaronsmolyar-com"
 pages_build_output_dir = "dist"
 
 [build]
