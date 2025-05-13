@@ -13,21 +13,18 @@
   "author": "Aaron Smolyar",
   "license": "MIT",
   "devDependencies": {
-    "@parcel/config-default": "2.15.0",
-    "@parcel/core": "2.15.0",
-    "@parcel/fs": "2.15.0",
-    "@parcel/package-manager": "2.15.0",
-    "@parcel/resolver-default": "2.15.0",
-    "@parcel/transformer-js": "2.15.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "@typescript-eslint/parser": "^5.59.0",
-    "eslint": "^8.38.0",
-    "parcel": "2.15.0",
-    "prettier": "^2.8.7",
-    "typescript": "^5.0.4"
+    "@parcel/transformer-image": "2.8.3",
+    "@parcel/transformer-sass": "2.8.3",
+    "@typescript-eslint/eslint-plugin": "5.59.0",
+    "@typescript-eslint/parser": "5.59.0",
+    "buffer": "5.7.1",
+    "eslint": "8.38.0",
+    "parcel": "2.8.3",
+    "prettier": "2.8.7",
+    "sharp": "0.32.1",
+    "typescript": "5.0.4"
   },
   "dependencies": {
-    "gsap": "^3.11.5"
-  },
-  "packageManager": "yarn@4.9.1"
+    "gsap": "3.11.5"
+  }
 }
