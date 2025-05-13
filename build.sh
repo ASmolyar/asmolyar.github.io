@@ -6,18 +6,19 @@ echo "Creating a static build without Parcel..."
 # Clean dist directory if it exists
 rm -rf dist
 mkdir -p dist
+mkdir -p dist/scripts
 
 # Install TypeScript for transpilation
 echo "Installing dependencies..."
 npm install typescript --no-save
 
-# Transpile TypeScript files to JavaScript
+# Transpile TypeScript files to JavaScript using tsconfig
 echo "Transpiling TypeScript files..."
-npx tsc src/scripts/main.ts --outDir dist/scripts --target es2015 --module es2015 --esModuleInterop
-npx tsc src/scripts/particles.ts --outDir dist/scripts --target es2015 --module es2015 --esModuleInterop
+npx tsc --project tsconfig.json
 
 # Copy HTML files directly but modify the script tag
 echo "Copying and modifying HTML files..."
+# Replace TypeScript extension with JavaScript in the HTML
 sed 's/src="\.\/scripts\/main.ts"/src="\.\/scripts\/main.js"/' src/index.html > dist/index.html
 
 # Copy main directories
@@ -41,13 +42,19 @@ cat > dist/_headers << EOF
 /*.js
   Content-Type: application/javascript
 
-/*.mjs
-  Content-Type: application/javascript
-
 /*.css
   Content-Type: text/css
+
+/scripts/*.js
+  Content-Type: application/javascript
 EOF
+
+# Create a debug index.js to verify TypeScript compilation
+echo "Creating debug info..."
+echo "console.log('Build timestamp: $(date)');" > dist/scripts/debug.js
 
 echo "Build complete!"
 echo "Files in dist directory:"
-ls -la dist/ 
+ls -la dist/
+echo "Files in scripts directory:"
+ls -la dist/scripts/ 
