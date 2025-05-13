@@ -6,9 +6,14 @@ rm -f package-lock.json
 rm -f yarn.lock
 
 echo "Installing dependencies with standard npm install..."
-npm install
+# Ensure all optional dependencies are installed
+npm install --include=optional
+
+# Explicitly install platform-specific watcher
+echo "Installing platform-specific dependencies..."
+npm install @parcel/watcher-linux-x64-glibc --no-save
 
 echo "Building project..."
-npx parcel build src/index.html --dist-dir dist --no-optimize --no-cache
+npx parcel build src/index.html --dist-dir dist --no-optimize --no-cache --no-watch
 
 echo "Build complete!" 
