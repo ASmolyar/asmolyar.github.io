@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aaron Smolyar | Portfolio</title>
+  <meta name="description" content="Aaron Smolyar's portfolio showcasing projects at the intersection of education, technology, and social impact.">
+  <link rel="stylesheet" href="./styles/main.css">
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- GSAP Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+  <script type="module" src="./scripts/main.ts"></script>
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="spinner"></div>
+    <p>Loading website...</p>
+  </div>
+
+  <!-- Particle background canvas -->
+  <canvas id="particles-canvas"></canvas>
+  
+  <!-- Main header -->
+  <header class="header">
+    <div class="header__logo">Aaron Smolyar</div>
+    <nav class="header__nav">
+      <ul>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="header__menu-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Floating project navigation -->
+  <nav class="project-nav">
+    <ul>
+      <li><a href="#cleo" class="project-nav__link" data-section="cleo">CLEO Initiative</a></li>
+      <li><a href="#brainrot" class="project-nav__link" data-section="brainrot">brainrot</a></li>
+      <li><a href="#hack4impact" class="project-nav__link" data-section="hack4impact">Hack4Impact</a></li>
+      <li><a href="#chess" class="project-nav__link" data-section="chess">Chess Projects</a></li>
+      <li><a href="#tomadoro" class="project-nav__link" data-section="tomadoro">Tomadoro</a></li>
+      <li><a href="#camprsm" class="project-nav__link" data-section="camprsm">Camp RSM</a></li>
+      <li><a href="#music" class="project-nav__link" data-section="music">Music</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="about" class="hero">
+      <div class="container">
+        <div class="hero__content">
+          <div class="hero__profile">
+            <div class="profile-picture">
+              <!-- Add your profile picture here -->
+              <img src="./assets/profile.jpg" alt="Aaron Smolyar">
+            </div>
+          </div>
+          <h1 class="hero__title">Hi, I'm Aaron Smolyar.</h1>
+          <p class="hero__text">
+            I study Artificial Intelligence at the University of Pennsylvania, and I spend most of my time working on projects combining education, technology, and social impact.
+          </p>
+          <div class="hero__buttons">
+            <a href="#cleo" class="button button--primary">View Projects</a>
+            <a href="#contact" class="button button--secondary">Get in Touch</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLEO Section -->
+    <section id="cleo" class="project-section">
+      <div class="container">
+        <h2 class="section-title">
+          <img src="./assets/logos/cleo-logo.png" alt="CLEO Logo" class="section-logo">
+          Initiative
+        </h2>
+        
+        <!-- Introduction -->
+        <div class="project-content cleo-intro">
+          <div class="project-content__text">
+            <p>
+              In 2021, I co-founded the CLEO Initiative to help bridge the digital divide by teaching technology skills to older adults. What began as volunteering at the retirement home next door to our school grew into a national nonprofit that partners with libraries and senior centers around the country.
+            </p>
+            <div class="cleo-mission">
+              <h3>Our Mission</h3>
+              <p>
+                Our mission is to establish a community around providing access to technology and improving the quality of life for seniors who lack digital literacy skills.
+              </p>
+            </div>
+          </div>
+          
+          <div class="project-content__media">
+            <div class="video-container primary">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/T7zsF6vAWfc" title="CBS On the Road with Steve Hartman" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <div class="video-title">CBS News: "On the Road with Steve Hartman"</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Media and Recognition -->
+        <div class="cleo-recognition">
+          <div class="recognition-text">
+            <h3>Media Recognition</h3>
+            <p>
+              Our work was featured on CBS News by Steve Hartman, Modi Rosenfeld's podcast, and several national publications. More information about our impact and ongoing programs can be found at the link below.
+            </p>
+            <p>
+              I designed and developed the organization's website, creating an online presence that helped us expand our reach and connect with more seniors and community partners across the country.
+            </p>
+            <div class="project-links">
+              <a href="https://cleoinitiative.org" target="_blank" rel="noopener noreferrer" class="link">Visit CLEO Initiative</a>
+            </div>
+          </div>
+          
+          <div class="secondary-media">
+            <div class="video-container secondary">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/Jg5ExyfZ-ok" title="Modi Rosenfeld Podcast" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <div class="video-title">Modi Rosenfeld Podcast</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BrainRot Section -->
+    <section id="brainrot" class="project-section">
+      <div class="container">
+        <div class="brainrot-layout">
+          <div class="brainrot-content">
+            <h2 class="section-title">
+              <img src="./assets/logos/brainrot-logo.png" alt="brainrot Logo" class="section-logo">
+              brainrot
+            </h2>
+            <div class="brainrot-text">
+              <p class="brainrot-tagline">
+                A digital wellness app that turns screen time into a virtual pet.
+              </p>
+              <p>
+                brainrot is a screen time tracker disguised as a Tamagotchi-style brain pet. The more you doomscroll, the more your brain decays. If you take breaks, it starts to heal.
+              </p>
+              <p>
+                I built brainrot to make digital wellbeing feel less clinical and more immediate. It uses Apple's Screen Time API, Core Motion, and local notifications to track behavior and nudge you in real time.
+              </p>
+              <div class="project-status">
+                <span>Release: May 2025</span>
+              </div>
+              <div class="project-links">
+                <a href="https://thebrainrotapp.com/" class="link">brainrot Landing Page</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="brainrot-phone">
+            <div class="phone-showcase">
+              <div class="iphone">
+                <div class="iphone-notch"></div>
+                <div class="iphone-screen">
+                  <img id="app-demo" src="./assets/brainrot.png" alt="brainrot App Screenshot">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hack4Impact Section -->
+    <section id="hack4impact" class="project-section">
+      <div class="container">
+        <h2 class="section-title">
+          <img src="./assets/logos/h4i-logo.png" alt="Hack4Impact Logo" class="section-logo">
+           Projects
+        </h2>
+        
+        <!-- Full width intro content -->
+        <div class="h4i-intro">
+          <p class="h4i-tagline">
+            Tech for social good at the University of Pennsylvania
+          </p>
+          <p>
+            Through Hack4Impact at Penn, I've had the chance to work on two nonprofit projects that align closely with my passion for tech for good.
+          </p>
+          <p>
+            As a Project Manager for Guitars Over Guns, I'm leading a team building a web-based impact report platform. This will replace their static PDF reports and allow them to share their outcomes more dynamically and persuasively with funders, partners, and the public.
+          </p>
+          <p>
+            As a Developer on a project with Catalyst Kitchens, I helped build a data visualization dashboard that allows their team to monitor and analyze performance across a national network of community kitchens. The dashboard supports insights on hunger relief, workforce development, and capital project impact.
+          </p>
+          <p>
+            Both projects utilize MERN stack technologies (MongoDB, Express, React, Node.js) along with data visualization libraries to build impactful web applications for these nonprofits.
+          </p>
+        </div>
+        
+        <!-- Project cards side by side -->
+        <div class="project-cards">
+          <!-- Guitars Over Guns Card -->
+          <div class="project-card">
+            <div class="card-header">
+              <h4>Guitars Over Guns</h4>
+              <span class="card-role">Project Manager</span>
+            </div>
+            <div class="card-image">
+              <img src="./assets/gogo.png" alt="Guitars Over Guns Project Screenshot" class="project-screenshot">
+            </div>
+            <div class="card-description">
+              <p>Music mentorship for at-risk youth</p>
+            </div>
+          </div>
+          
+          <!-- Catalyst Kitchens Card -->
+          <div class="project-card">
+            <div class="card-header">
+              <h4>Catalyst Kitchens</h4>
+              <span class="card-role">Developer</span>
+            </div>
+            <div class="card-image">
+              <img src="./assets/catalyst-kitchens.png" alt="Catalyst Kitchens Project Screenshot" class="project-screenshot">
+            </div>
+            <div class="card-description">
+              <p>Culinary training and hunger relief</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chess Section -->
+    <section id="chess" class="project-section">
+      <div class="container">
+        <h2 class="section-title">
+          <img src="./assets/logos/chess-logo.png" alt="Chess Logo" class="section-logo">
+          Chess
+        </h2>
+        
+        <!-- Main Chess Content -->
+        <div class="chess-main-container">
+          <!-- Right side: All other chess content (now on left) -->
+          <div class="chess-content-container">
+            <!-- Chess Introduction - Why I Like Chess -->
+            <div class="chess-intro">
+              <h3>Why Chess?</h3>
+              <p>
+                Chess has been a hobby of mine for years now. I love it a lot, even if I'm not all that great at it. I think I am drawn to the game because every game forces me to think in new ways. I spend a lot of my free time playing bullet online, but I also love playing live chess with friends.
+              </p>
+      
+              <div class="project-links">
+                <a href="https://www.chess.com/member/askmee" target="_blank" rel="noopener noreferrer" class="link">My Chess.com Profile</a>
+              </div>
+            </div>
+            
+            <!-- Chess in Java Project -->
+            <div class="chess-java-project">
+              <h3>Chess in Java</h3>
+              <p>
+                I built a chess app in Java as part of a personal project, documenting every step in a video series on YouTube. I didn't have the ability to finish it in high school, but I finished it in college. I have linked the final demo below and the github repo.
+              </p>
+              
+              <div class="chess-java-content">
+                <!-- Chess in Java Screenshot -->
+               
+                <!-- Chess in Java Video -->
+                <div class="chess-java-item">
+                  <div class="chess-video-demo chess-video-container">
+                    <video class="chess-mp4" controls muted>
+                      <source src="./assets/chess.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                    <p class="video-caption">Demo of my chess final chess app</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- YouTube Series -->
+              <div class="chess-youtube">
+                <div class="video-container chess-video-container">
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=sE5gK6e6Tm_ijDz1&amp;list=PLVo5fb6iwYGEYHS5o3QcHaD0-f7xcMPYF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <p class="video-caption">Documenting my journey building the chess app</p>
+              </div>
+              
+              <div class="project-links">
+                <a href="https://github.com/ASmolyar/Chess" target="_blank" rel="noopener noreferrer" class="link">Chess in Java on GitHub</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Left side: Tall chess-1 image and chess league (now on right) -->
+          <div class="chess-tall-image">
+            <div class="chess-image">
+              <img src="./assets/chess-1.jpg" alt="Chess Tournament" class="chess-tournament-photo">
+              <p class="image-caption">Tournament play at the Southwest Florida Chess Championship</p>
+            </div>
+             <div class="chess-java-item">
+                <div class="chess-screenshot">
+                  <img src="./assets/chess-2.jpg" alt="Chess in Java Screenshot" class="chess-engine-screenshot">
+                  <p class="image-caption">SWFL Chess League Championship Winners</p>
+                </div>
+              </div>
+                
+            <!-- Chess League - Moved below the image -->
+            <div class="chess-league chess-league-left">
+              <h3>Southwest Florida High School Chess League</h3>
+              <p>
+                In high school, I founded the Southwest Florida High School Chess League, organizing matches and events across 8 schools in the region. It was the first time I created a real community around a passion of mine. It was by far one of the highlights of my high school experience.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tomadoro Section -->
+    <section id="tomadoro" class="project-section">
+      <div class="container">
+        <h2 class="section-title">
+          <img src="./assets/logos/tomadoro-logo.png" alt="Tomadoro Logo" class="section-logo">
+          Tomadoro App
+        </h2>
+        <div class="project-content">
+          <div class="project-content__text">
+            <p>
+              Tomadoro is a Pomodoro-style timer app with motion-based controls. Instead of tapping buttons, you use subtle gestures to start, pause, or reset.
+            </p>
+            <p>
+              Designed to help you stay focused without fiddling with your phone, Tomadoro makes starting a work session feel as frictionless as possible.
+            </p>
+            <p class="personal-note">
+              <em>I built Tomadoro during my finals season this year when I was struggling to focus during finals season. I needed something that wouldn't let me touch my phone every time I felt bored. The motion controls were my solution – if you pick up your phone for even 10 seconds, it fails your focus session. It helped me maintain deep focus when I needed it most (although building it was a distraction in and of itself if I am being honest).</em>
+            </p>
+            <div class="project-status">
+              <span>Release TBD</span>
+            </div>
+          </div>
+          <div class="project-content__media">
+            <div class="tomadoro-phone">
+              <div class="phone-showcase">
+                <div class="iphone">
+                  <div class="iphone-notch"></div>
+                  <div class="iphone-screen">
+                    <img id="tomadoro-demo" src="./assets/tomadoro.jpeg" alt="Tomadoro App Screenshot">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Camp RSM Section -->
+    <section id="camprsm" class="project-section">
+      <div class="container">
+        <h2 class="section-title">
+          <img src="./assets/logos/camprsm-logo.png" alt="Camp RSM Logo" class="section-logo">
+          Camp RSM
+        </h2>
+        
+        <!-- Introduction -->
+        <div class="camp-intro">
+          <div class="camp-intro-content">
+            <h3>Where It All Started</h3>
+            <p>
+              Camp RSM is where I grew up. I started as the youngest camper, and this summer, I'll return as one of the camp's alumni directors. To come full circle like this is incredibly meaningful and special to me, and I am hoping to make the most out of my last summer here.
+            </p>
+            <p>
+              It's where I learned to lead, listen, and find joy in building experiences for others. From teaching math to organizing secret night activities for my campers, I discovered what it means to go all in on a community that I love.
+            </p>
+          </div>
+        </div>
+        
+        <!-- Featured Photo -->
+        <div class="photo featured-photo">
+          <img src="./assets/camp1.jpg" alt="Camp RSM Activity">
+          <p class="image-caption">Summer activities at Camp RSM</p>
+        </div>
+        
+        <!-- Media Gallery -->
+        <div class="camp-gallery">
+          <div class="gallery-row">
+            <div class="photo">
+              <img src="./assets/camp2.jpg" alt="Camp RSM Cabins" class="cabin-image">
+              <p class="image-caption">The lakeside cabins</p>
+            </div>
+            <div class="photo">
+              <img src="./assets/camp3.jpg" alt="Camp RSM Math Class">
+              <p class="image-caption">Math enrichment sessions</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Video and Map -->
+        <div class="camp-media">
+          <div class="camp-card">
+            <h3>Camp Commander</h3>
+            <p>
+              Every year, camp traditions are passed down through generations of counselors. The Commander announcement is a special moment that marks the official beginning of the upcoming summer hype. I was lucky enough to be able to make this video for my commander team's announcement video this year. Political satire is a common theme at camp, and this year's video is no exception.
+            </p>
+            <div class="video-container">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/Lt6_2ac7AwE?si=N0Sf0z62bzMBXq1g" title="Commander Announcement Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <p class="video-caption">Our camp commander announcement video for the upcoming season.</p>
+          </div>
+          
+          <div class="camp-card">
+            <h3>Camp on Google Maps</h3>
+            <p>
+              Growing up, I was totally obsessed with camp. I wanted to be able to experience camp from anywhere in the world. As a counselor, I built this tool for future campers who were obsessed with camp like me and wanted to look around the campgrounds from the comfort of their own homes.
+            </p>
+            <div class="map-container">
+              <div class="map-overlay">
+                <div class="map-overlay-text">Click to View</div>
+              </div>
+              <iframe src="https://www.google.com/maps/embed?pb=!4v1747100194862!6m8!1m7!1sCAoSF0NJSE0wb2dLRUlDQWdJREpoNk9Ka3dF!2m2!1d43.4574679673823!2d-72.08410868119228!3f15.826703379441689!4f-2.5721034927773587!5f0.7820865974627469" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Music Section -->
+    <section id="music" class="project-section">
+      <div class="container">
+        <h2 class="section-title">
+          <img src="./assets/logos/music-logo.png" alt="Music Logo" class="section-logo">
+          Music
+        </h2>
+        
+        <!-- Enhanced music intro -->
+        <div class="music-intro">
+          <p>
+            I started playing guitar in middle school, and have been playing ever since. In high school, I started a bend that played at our open mic nights which I hosted every quarter. I also help run the band at Camp RSM.
+          </p>
+          <p>
+            While I'm not ready to leave everything behind for a music career, I enjoy playing covers with friends and occasionally writing original songs. I am hoping to release an album with a friend from Penn in the near future.
+          </p>
+        </div>
+        
+        <!-- Restructured music videos grid -->
+        <div class="music-videos-grid">
+          <!-- YouTube Video -->
+          <div class="music-video-item">
+            <div class="video-container music-youtube">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/4dTRmTQ3cfs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <p class="video-caption">Acoustic guitar performance</p>
+          </div>
+          
+          <!-- Vimeo Video -->
+          <div class="music-video-item">
+            <div class="video-container music-vimeo">
+              <iframe src="https://player.vimeo.com/video/953168667?h=c8f1e6e65c&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479#t=35m34s" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" title="Guitar Performance" allowfullscreen></iframe>
+            </div>
+            <p class="video-caption">Live guitar performance</p>
+          </div>
+        </div>
+        
+        <!-- Music image and caption - full width of content section -->
+        <div class="music-footer">
+          <div class="music-image">
+            <img src="./assets/music-1.jpg" alt="Playing Guitar" class="music-photo">
+          </div>
+          <p class="image-caption">Playing at one of our high school open mic nights which I hosted every quarter</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        
+        <div class="contact-layout-new">
+          <div class="contact-links-simple">
+            <a href="mailto:aaron.smolyar@gmail.com" class="contact-item">
+              <span class="contact-icon-simple">✉️</span>
+              <span class="contact-label">aaron.smolyar@gmail.com</span>
+            </a>
+            
+            <a href="https://github.com/asmolyar" target="_blank" rel="noopener noreferrer" class="contact-item">
+              <span class="contact-icon-simple">🐙</span>
+              <span class="contact-label">github.com/asmolyar</span>
+            </a>
+            
+            <a href="https://www.instagram.com/aaronsmolyar/" target="_blank" rel="noopener noreferrer" class="contact-item">
+              <span class="contact-icon-simple">📸</span>
+              <span class="contact-label">instagram.com/aaronsmolyar</span>
+            </a>
+          </div>
+          
+          <div class="contact-quote-simple">
+            <p class="quote-text">"You are not obligated to complete the work, but neither are you free to abandon it."</p>
+            <p class="quote-author">— Pirkei Avot 2:16</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© <span id="current-year"></span> Aaron Smolyar</p>
+    </div>
+  </footer>
+
+  <script>
+    // Handle map overlay click and preloading
+    document.addEventListener("DOMContentLoaded", function() {
+      const mapOverlays = document.querySelectorAll('.map-overlay');
+      mapOverlays.forEach(overlay => {
+        overlay.addEventListener('click', function() {
+          this.classList.add('hidden');
+        });
+      });
+      
+      // Hide preloader after a short delay
+      setTimeout(() => {
+        document.getElementById('preloader').classList.add('hidden');
+      }, 1000);  // 1 second is enough since we're no longer loading external files
+    });
+  </script>
+</body>
+</html> 
