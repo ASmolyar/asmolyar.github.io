@@ -12,9 +12,15 @@ mkdir -p dist/scripts
 echo "Installing esbuild..."
 npm install --no-save esbuild
 
-# Process TypeScript files with esbuild
+# Copy static assets first
+echo "Copying static assets..."
+cp -r src/*.html dist/
+cp -r src/styles dist/
+cp -r src/assets dist/
+
+# Process TypeScript files with esbuild (ensure proper module format)
 echo "Processing TypeScript files..."
-npx esbuild src/scripts/main.ts --bundle --outfile=dist/scripts/main.js --format=esm --target=es2020
+npx esbuild src/scripts/main.ts --bundle --outfile=dist/scripts/main.js --format=esm --target=es2020 --sourcemap
 
 # Copy HTML files but modify the script reference
 echo "Copying and modifying HTML files..."
@@ -22,11 +28,6 @@ for htmlfile in src/*.html; do
   # Replace the TypeScript script reference with the compiled JavaScript
   sed 's|<script type="module" src="./scripts/main.ts"></script>|<script type="module" src="./scripts/main.js"></script>|g' "$htmlfile" > "dist/$(basename "$htmlfile")"
 done
-
-# Copy other static assets
-echo "Copying other static assets..."
-cp -r src/styles dist/
-cp -r src/assets dist/
 
 # Copy CNAME file if it exists
 if [ -f CNAME ]; then
