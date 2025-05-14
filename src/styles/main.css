@@ -2855,12 +2855,12 @@ ul, ol {
 
 /* Specific logo styling for Camp RSM logo */
 .section-title img[alt="Camp RSM Logo"] {
-  height: 75px; /* Larger than the standard logos */
+  max-height: 40px; /* Match standard logo size */
 }
 
 @media (max-width: 768px) {
   .section-title img[alt="Camp RSM Logo"] {
-    height: 60px;
+    max-height: 30px; /* Match standard logo size on mobile */
   }
 }
 
