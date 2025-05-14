@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es2015",
-    "module": "es2015",
-    "esModuleInterop": true,
+    "target": "ES2020",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "strict": false,
-    "sourceMap": false,
-    "outDir": "dist/scripts",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*"]
-    }
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "sourceMap": true
   },
-  "include": ["src/scripts/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 } 
