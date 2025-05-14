@@ -3015,3 +3015,17 @@ ul, ol {
 .gallery-row .photo:hover .cabin-image {
   transform: translateY(-15%) scale(1.05);
 }
+
+/* Add size constraint for section logos */
+.section-logo {
+  max-height: 40px;
+  width: auto;
+  vertical-align: middle;
+  margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+  .section-logo {
+    max-height: 30px;
+  }
+}
