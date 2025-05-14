@@ -134,7 +134,8 @@ ul, ol {
   font-size: 2.5rem;
   margin-bottom: var(--spacing-xl);
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
 }
 
 .section-title::after {
@@ -1409,7 +1410,7 @@ ul, ol {
   .chess-tall-image {
     position: relative;
     top: 0;
-    order: 1;
+    order: 2; /* Change order to 2 so chess-content-container (with chess-intro) appears first */
     margin-bottom: 2.5rem;
     max-height: none;
     padding-right: 0;
@@ -1417,7 +1418,7 @@ ul, ol {
   }
   
   .chess-content-container {
-    order: 2;
+    order: 1; /* Change order to 1 to make this appear first */
   }
   
   .chess-tournament-photo {
@@ -3021,11 +3022,42 @@ ul, ol {
   max-height: 40px;
   width: auto;
   vertical-align: middle;
-  margin-right: 15px;
+  margin-right: 8px;
+  display: inline-block;
 }
 
 @media (max-width: 768px) {
   .section-logo {
     max-height: 30px;
+  }
+}
+
+/* App icons with rounded corners */
+.section-title img[alt="brainrot Logo"],
+.section-title img[alt="Tomadoro Logo"] {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Improve Camp RSM mobile layout */
+@media (max-width: 768px) {
+  .camp-media {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .camp-card {
+    padding: 1.5rem;
+  }
+  
+  .camp-card .video-container {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .featured-photo {
+    height: auto;
+    max-height: 280px;
   }
 }
