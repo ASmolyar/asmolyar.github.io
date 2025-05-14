@@ -98,95 +98,86 @@ class ParticleBackground {
     // Define themes for each section
     this.themes = {
       default: {
-        primaryColor: '#3498db',
-        secondaryColor: '#2980b9',
-        backgroundColor: '#ffffff',
-        particleShape: 'circle',
-        particleCount: 100,
+        primaryColor: "#3498db",
+        secondaryColor: "#2980b9",
+        backgroundColor: "#ffffff",
+        particleShape: "circle",
+        particleCount: 200,
         particleSize: 5,
-        speedFactor: 1
+        speedFactor: 1,
       },
       cleo: {
-        primaryColor: '#3498db',
-        secondaryColor: '#ffffff',
-        backgroundColor: '#e8f4fc',
-        particleShape: 'circle',
-        particleCount: 100,
+        primaryColor: "#3498db",
+        secondaryColor: "#ffffff",
+        backgroundColor: "#e8f4fc",
+        particleShape: "circle",
+        particleCount: 200,
         particleSize: 5,
-        speedFactor: 0.8
+        speedFactor: 0.8,
       },
       brainrot: {
-        primaryColor: '#f1c40f',
-        secondaryColor: '#e67e22',
-        backgroundColor: '#fffceb',
-        particleShape: 'square',
-        particleCount: 80,
+        primaryColor: "#f1c40f",
+        secondaryColor: "#e67e22",
+        backgroundColor: "#fffceb",
+        particleShape: "square",
+        particleCount: 200,
         particleSize: 6,
-        speedFactor: 0.9
+        speedFactor: 0.9,
       },
       chess: {
-        primaryColor: '#2c3e50',
-        secondaryColor: '#ecf0f1',
-        backgroundColor: '#d5d8dc',
-        particleShape: 'chess',
+        primaryColor: "#2c3e50",
+        secondaryColor: "#ecf0f1",
+        backgroundColor: "#d5d8dc",
+        particleShape: "chess",
         particleCount: 120,
         particleSize: 15,
-        speedFactor: 0.4
+        speedFactor: 0.4,
       },
       camprsm: {
-        primaryColor: '#27ae60',
-        secondaryColor: '#ffffff',
-        backgroundColor: '#eafaf1',
-        particleShape: 'leaf',
-        particleCount: 70,
+        primaryColor: "#27ae60",
+        secondaryColor: "#ffffff",
+        backgroundColor: "#eafaf1",
+        particleShape: "leaf",
+        particleCount: 150,
         particleSize: 7,
-        speedFactor: 0.7
+        speedFactor: 0.7,
       },
       tomadoro: {
-        primaryColor: '#e74c3c',
-        secondaryColor: '#ffffff',
-        backgroundColor: '#fdedec',
-        particleShape: 'clock',
-        particleCount: 60,
+        primaryColor: "#e74c3c",
+        secondaryColor: "#ffffff",
+        backgroundColor: "#fdedec",
+        particleShape: "clock",
+        particleCount: 150,
         particleSize: 6,
-        speedFactor: 0.75
+        speedFactor: 0.75,
       },
       hack4impact: {
-        primaryColor: '#9b59b6',
-        secondaryColor: '#2ecc71',
-        backgroundColor: '#f5eef8',
-        particleShape: 'code',
-        particleCount: 90,
+        primaryColor: "#9b59b6",
+        secondaryColor: "#2ecc71",
+        backgroundColor: "#f5eef8",
+        particleShape: "code",
+        particleCount: 200,
         particleSize: 5,
-        speedFactor: 0.85
-      },
-      about: {
-        primaryColor: '#3498db',
-        secondaryColor: '#2980b9',
-        backgroundColor: '#ffffff',
-        particleShape: 'circle',
-        particleCount: 100,
-        particleSize: 5,
-        speedFactor: 1
+        speedFactor: 0.85,
       },
       projects: {
-        primaryColor: '#3498db',
-        secondaryColor: '#2980b9',
-        backgroundColor: '#f8f9fa',
-        particleShape: 'circle',
+        primaryColor: "#3498db",
+        secondaryColor: "#2980b9",
+        backgroundColor: "#f8f9fa",
+        particleShape: "circle",
         particleCount: 100,
         particleSize: 5,
-        speedFactor: 1
+        speedFactor: 1,
       },
       contact: {
-        primaryColor: '#3498db',
-        secondaryColor: '#2980b9',
-        backgroundColor: '#f8f9fa',
-        particleShape: 'circle',
+        primaryColor: "#3498db",
+        secondaryColor: "#2980b9",
+        backgroundColor: "#f8f9fa",
+        particleShape: "circle",
         particleCount: 100,
         particleSize: 5,
-        speedFactor: 1
-      }
+        speedFactor: 1,
+      },
     };
     
     this.init();
@@ -523,7 +514,7 @@ class ParticleBackground {
     this.ctx.rotate(particle.rotation);
 
     // Set global opacity to 0.5 for all particles (reducing opacity by half)
-    this.ctx.globalAlpha = 0.5;
+    this.ctx.globalAlpha = 0.8;
 
     // Convert solid color to semi-transparent color
     const rgb = this.hexToRgb(particle.color);
