@@ -182,23 +182,24 @@ ul, ol {
 }
 
 /* Achievement pill styling */
-.achievement-pill {
-  display: inline-block;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #333;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-left: 1rem;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
-  border: 1px solid rgba(255, 215, 0, 0.5);
-  position: relative;
-  overflow: hidden;
+.section-title .achievement-pill {
+  display: inline-block !important;
+  background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+  color: #333 !important;
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 20px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  margin-left: 1rem !important;
+  white-space: nowrap !important;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important;
+  border: 1px solid rgba(255, 215, 0, 0.5) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  vertical-align: middle !important;
 }
 
-.achievement-pill::before {
+.section-title .achievement-pill::before {
   content: '';
   position: absolute;
   top: 0;
@@ -209,7 +210,7 @@ ul, ol {
   transition: left 0.5s;
 }
 
-.achievement-pill:hover::before {
+.section-title .achievement-pill:hover::before {
   left: 100%;
 }
 
