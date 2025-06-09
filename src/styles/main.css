@@ -182,24 +182,33 @@ ul, ol {
 }
 
 /* Achievement pill styling */
-.section-title .achievement-pill {
-  display: inline-block !important;
-  background: linear-gradient(135deg, #FFD700, #FFA500) !important;
-  color: #333 !important;
-  padding: 0.25rem 0.75rem !important;
-  border-radius: 20px !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-  margin-left: 1rem !important;
-  white-space: nowrap !important;
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3) !important;
-  border: 1px solid rgba(255, 215, 0, 0.5) !important;
-  position: relative !important;
-  overflow: hidden !important;
-  vertical-align: middle !important;
+.achievement-container {
+  margin: 1.5rem 0;
+  text-align: left;
 }
 
-.section-title .achievement-pill::before {
+.achievement-pill {
+  display: inline-block;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+  border: 1px solid rgba(255, 215, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.achievement-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.5);
+}
+
+.achievement-pill::before {
   content: '';
   position: absolute;
   top: 0;
@@ -210,8 +219,42 @@ ul, ol {
   transition: left 0.5s;
 }
 
-.section-title .achievement-pill:hover::before {
+.achievement-pill:hover::before {
   left: 100%;
+}
+
+/* Brainrot actions styling */
+.brainrot-actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.brainrot-actions .project-status {
+  margin: 0;
+}
+
+.brainrot-actions .project-links {
+  margin: 0;
+}
+
+.app-store-link {
+  background: linear-gradient(135deg, #007AFF, #0051D0);
+  color: white !important;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  text-decoration: none !important;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.app-store-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);
+  color: white !important;
 }
 
 /* Header */
